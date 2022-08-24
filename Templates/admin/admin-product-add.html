@@ -1,0 +1,107 @@
+{% extends 'admin/admin-base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div class="alert alert-{{ message.tags }} mb-0 alert-dismissible fade show" role="alert">
+    <strong>Message: </strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" >
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<!-- <form action="{% url 'add_product' %}" method="POST">
+    {% csrf_token %}
+    <div>
+        {% render_field form.product_name type="text" placeholder="Product" %}
+    </div>
+    <div>
+        {% render_field form.discription type="text" %}
+    </div>
+    <div>
+        {% render_field form.price type="number" placeholder="cost" %}
+    </div>
+    <div>
+    {% render_field form.stock type="number" placeholder="stock" %}
+    </div>
+    <div>
+    <label for="">category</label>
+    {% render_field form.category type="text" %}
+    </div>
+    <div>
+    <label for="">sub category</label>
+    {% render_field form.sub_category type="text" %}
+    </div>
+    <div>
+        <label for="">Image 1</label>
+        {% render_field form.image_1 %}
+    </div>
+    <div>
+        <label for="">image 2</label>
+        {% render_field form.image_2 %}
+    </div>
+    <div>
+        <label for="">image3</label>
+        {% render_field form.image_3 %}
+    </div>
+    <div>
+        {% render_field form.is_available %}
+    </div>
+</form> -->
+
+
+<!-- <form action="{% url 'add_product' %}" method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group mb-3">
+        <label>{{ field.label }}</label>
+        <input type="{{ field.field.widget.input_type }}" name={{ field.name }} id="{{ field.name }}" class="form-control">
+        {% if field.errors %}
+        <div class="alert alert-dark" style="margin:10px">
+            {{ field.errors }}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <div class="mt-3">
+        <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" >Add Product</button>
+    </div>
+</form> -->
+
+<form method="post" action="{% url 'add_product' %}">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="form-group mb-3">
+            <label>{{ field.label }}</label>
+            {% if field.field.widget.input_type != "select" %}
+            <input type="{{ field.field.widget.input_type }}" name={{ field.name }} id="{{ field.name }}" class="form-control">
+            {% endif %}
+
+            {% if field.field.widget.input_type == "select" %}
+            <select name={{ field.name }} id="{{ field.name }}" class="form-control">
+                {% for id,value in field.field.choices %}
+                    <option value="{{ id }}">{{ value }}</option>
+                {% endfor %}
+            </select>
+            {% endif %}
+            
+            {% if field.errors %}
+            <div class="alert alert-danger" style="margin:10px">
+                {{ field.errors }}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    <button type="submit" class="btn btn-dark btn-block text-white">SAVE Product</button>
+</form>
+
+
+<!-- copy from here -->
+</div>
+<!-- content-wrapper ends -->
+</div>
+<!-- main-panel ends -->
+</div>
+<!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+{% endblock %}
